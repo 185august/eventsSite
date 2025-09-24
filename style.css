@@ -4,13 +4,20 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     margin: 0;
+}
+
+.main-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .event-container {
     width: 50%;
-    margin: 100px auto;
+    margin: 50px auto;
     text-align: center;
 }
 
@@ -27,13 +34,12 @@ body {
     letter-spacing: 2px;
     word-spacing: 2px;
     line-height: 1.5;
-    border: 2px solid black;
     width: 100%;
     margin: 0 auto;
 }
 
 .event-table th {
-    border: 2px solid lightgreen;
+    border: 2px solid indianred;
 }
 
 .event-table td {
