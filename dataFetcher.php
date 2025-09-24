@@ -2,6 +2,19 @@
 include 'dbConnection.php';
 $connection = getDbConnection();
 
+$venuesResult = pg_query($connection, "
+SELECT venue_id, name, address, capacity, contact_info 
+FROM venues");
+if (!$venuesResult) {
+    echo "Venues query failed";
+    exit;
+}
+
+$usersResult = pg_query($connection, "SELECT user_id, name, email, phone FROM users");
+if (!$usersResult) {
+    echo "Users query failed";
+    exit;
+}
 
 $eventsResult = pg_query($connection, "SELECT event_id, title, description,  to_char(start_time, 'YYYY-MM-DD HH24:MI') as start_time,
            to_char(end_time, 'YYYY-MM-DD HH24:MI') as end_time, name FROM events
@@ -57,6 +70,8 @@ if (!$ordersResult) {
 pg_close($connection);
 
 return [
+    'venues' => $venuesResult,
+    'users' => $usersResult,
     'events' => $eventsResult,
     'tickets' => $ticketsResult,
     'orders' => $ordersResult
