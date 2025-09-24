@@ -1,0 +1,41 @@
+body {
+    background-color: dimgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.event-container {
+    width: 50%;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.event-table {
+    color: pink;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-transform: uppercase;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    line-height: 1.5;
+    border: 2px solid black;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.event-table th {
+    border: 2px solid lightgreen;
+}
+
+.event-table td {
+    border: 2px solid lightblue;
+}
