@@ -8,11 +8,60 @@
 <body>
 <?php
 $dbResults = include 'dataFetcher.php';
+$venuesResult = $dbResults['venues'];
+$usersResult = $dbResults['users'];
 $ticketsResult = $dbResults['tickets'];
 $ordersResult = $dbResults['orders'];
 $eventsResult = $dbResults['events'];
 ?>
+
+
 <div class='event-container'>
+    <h1>Users</h1>
+    <table class="event-table">
+        <tr>
+            <th>User name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+        <?php
+        while ($row = pg_fetch_assoc($usersResult)) {
+            echo "
+                <tr id='{$row['user_id']}' >
+                <td>{$row['name']}</td>
+                <td>{$row['email']}</td>
+                <td>{$row['phone']}</td>
+                </tr>
+                ";
+        }
+        ?>
+    </table>
+    <a href="registerNewUserForm.php" class="button-link">Create a new user</a>
+
+    <h1>Venus</h1>
+    <table class="event-table">
+        <tr>
+            <th>Venue name</th>
+            <th>Address</th>
+            <th>Capacity</th>
+            <th>Contact info</th>
+        </tr>
+        <?php
+        while ($row = pg_fetch_assoc($venuesResult)) {
+            echo "
+                <tr id='{$row['venue_id']}' >
+                <td>{$row['name']}</td>
+                <td>{$row['address']}</td>
+                <td>{$row['capacity']}</td>
+                <td>{$row['contact_info']}</td>
+                </tr>
+                ";
+        }
+        ?>
+    </table>
+    <a href="registerNewVenueForm.php" class="button-link">Create a new Venue</a>
+
+
     <h1>Events</h1>
     <table class="event-table">
         <tr>
@@ -36,8 +85,8 @@ $eventsResult = $dbResults['events'];
         }
         ?>
     </table>
-</div>
-<div class='event-container'>
+
+
     <h1>Tickets</h1>
     <table class="event-table">
         <tr>
@@ -64,8 +113,8 @@ $eventsResult = $dbResults['events'];
         }
         ?>
     </table>
-</div>
-<div class='event-container'>
+
+
     <h1>Orders</h1>
     <table class="event-table">
         <tr>
@@ -78,7 +127,6 @@ $eventsResult = $dbResults['events'];
             <th>Status</th>
         </tr>
         <?php
-        // The $orders_result variable is populated by the included data_fetcher.php script.
         while ($row = pg_fetch_assoc($ordersResult)) {
             echo "
                 <tr id='{$row['order_id']}' >
