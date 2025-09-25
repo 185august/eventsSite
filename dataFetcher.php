@@ -1,5 +1,5 @@
 <?php
-include 'dbConnection.php';
+include_once 'dbConnection.php';
 
 class dataFetcher
 {
@@ -50,10 +50,19 @@ class dataFetcher
 
     function fetchEvents()
     {
-        $eventsResult = pg_query($this->connection, "SELECT event_id, title, description,  to_char(start_time, 'YYYY-MM-DD HH24:MI') as start_time,
-           to_char(end_time, 'YYYY-MM-DD HH24:MI') as end_time, name FROM events
+        $eventsResult = pg_query($this->connection, "
+        SELECT 
+            event_id, 
+            title, 
+            description,  
+            to_char(start_time, 'YYYY-MM-DD HH24:MI') as start_time,
+            to_char(end_time, 'YYYY-MM-DD HH24:MI') as end_time, 
+            public.venues.name,
+            public.users.name as organizer
+        FROM events
     JOIN venues
-        ON events.venue_id = venues.venue_id");
+        ON events.venue_id = venues.venue_id
+        JOIN users ON events.organizer_id = users.user_id");
         if (!$eventsResult) {
             echo "Events query failed";
             exit;
@@ -88,5 +97,42 @@ class dataFetcher
             echo "Venues query failed";
         }
         return $venuesResult;
+    }
+
+    function fetchPayments()
+    {
+        $ordersResult = pg_query($this->connection, "
+            SELECT payment_id,amount, payment_method, to_char(payments.transaction_date, 'YYYY-MM-DD HH24:MI') as transaction_date 
+            FROM payments");
+        if (!$ordersResult) {
+            echo "Payments query failed";
+            exit;
+        }
+        return $ordersResult;
+    }
+
+    function fetchEventParticipants()
+    {
+        $eventsParticipantsResult = pg_query($this->connection, "
+            SELECT event_participants.event_id, 
+                   event_participants.user_id, 
+                   event_participants.role_id, 
+                   role_name,
+                   name,
+                   title,
+                   to_char(start_time, 'YYYY-MM-DD HH24:MI') as start_time,
+                   to_char(end_time, 'YYYY-MM-DD HH24:MI') as end_time
+            FROM event_participants 
+            JOIN events e
+            ON event_participants.event_id = e.event_id
+            JOIN users u
+            ON event_participants.user_id = u.user_id
+            JOIN roles r
+            ON event_participants.role_id = r.role_id");
+        if (!$eventsParticipantsResult) {
+            echo "Events participants query failed";
+            exit;
+        }
+        return $eventsParticipantsResult;
     }
 }
