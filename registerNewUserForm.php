@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register new user</title>
 </head>
 <body>
 <a href="index.php" class="button-link">Go back</a>
