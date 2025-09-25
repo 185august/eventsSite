@@ -7,12 +7,14 @@
 </head>
 <body>
 <?php
-$dbResults = include 'dataFetcher.php';
-$venuesResult = $dbResults['venues'];
-$usersResult = $dbResults['users'];
-$ticketsResult = $dbResults['tickets'];
-$ordersResult = $dbResults['orders'];
-$eventsResult = $dbResults['events'];
+require_once 'dataFetcher.php';
+$dataFetcher = new dataFetcher();
+
+$venuesResult = $dataFetcher->fetchVenues();
+$usersResult = $dataFetcher->fetchUsers();
+$ticketsResult = $dataFetcher->fetchTickets();
+$ordersResult = $dataFetcher->fetchOrders();
+$eventsResult = $dataFetcher->fetchEvents();
 ?>
 
 
