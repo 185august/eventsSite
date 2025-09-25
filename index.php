@@ -15,6 +15,8 @@ $usersResult = $dataFetcher->fetchUsers();
 $ticketsResult = $dataFetcher->fetchTickets();
 $ordersResult = $dataFetcher->fetchOrders();
 $eventsResult = $dataFetcher->fetchEvents();
+$paymentsResult = $dataFetcher->fetchPayments();
+$eventParticipantsResult = $dataFetcher->fetchEventParticipants();
 ?>
 
 
@@ -69,6 +71,7 @@ $eventsResult = $dataFetcher->fetchEvents();
         <tr>
             <th>Event Name</th>
             <th>Event Description</th>
+            <th>Organizer</th>
             <th>Start time</th>
             <th>End time</th>
             <th>Venue</th>
@@ -79,6 +82,7 @@ $eventsResult = $dataFetcher->fetchEvents();
                 <tr id='{$row['event_id']}' >
                 <td>{$row['title']}</td>
                 <td>{$row['description']}</td>
+                <td>{$row['organizer']}</td>
                 <td>{$row['start_time']}</td>
                 <td>{$row['end_time']}</td>
                 <td>{$row['name']}</td>
@@ -87,7 +91,32 @@ $eventsResult = $dataFetcher->fetchEvents();
         }
         ?>
     </table>
+    <a href="registerNewEventForm.php" class="button-link">Create a new Event</a>
 
+    <h1>Event Participants </h1>
+    <table class="event-table">
+        <tr>
+            <th>User Name</th>
+            <th>Event</th>
+            <th>Role At Event</th>
+            <th>Start time</th>
+            <th>End time</th>
+        </tr>
+        <?php
+
+        while ($row = pg_fetch_assoc($eventParticipantsResult)) {
+            echo "
+                <tr>
+                <td>{$row['name']}</td>
+                <td>{$row['title']}</td>
+                <td>{$row['role_name']}</td>
+                <td>{$row['start_time']}</td>
+                <td>{$row['end_time']}</td>
+                </tr>
+                ";
+        }
+        ?>
+    </table>
 
     <h1>Tickets</h1>
     <table class="event-table">
@@ -139,6 +168,28 @@ $eventsResult = $dataFetcher->fetchEvents();
                 <td>{$row['price_at_purchase']}</td>
                 <td>{$row['ticket_type']}</td>
                 <td>{$row['status']}</td>
+                </tr>
+                ";
+        }
+        ?>
+    </table>
+    <h1>Payments</h1>
+    <table class="event-table">
+        <tr>
+            <th>Payment Id</th>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Payment Date</th>
+        </tr>
+        <?php
+
+        while ($row = pg_fetch_assoc($paymentsResult)) {
+            echo "
+                <tr id='{$row['payment_id']}' >
+                <td>{$row['payment_id']}</td>
+                <td>{$row['amount']}</td>
+                <td>{$row['payment_method']}</td>
+                <td>{$row['transaction_date']}</td>
                 </tr>
                 ";
         }
