@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register new venue</title>
-</head>
-<body>
-<a href="index.php" class="button-link">Go back</a>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    Name: <label>
-        <input name="name" required type="text">
-    </label>
-    <br>
-    Address: <label>
-        <input name="address" required type="text">
-    </label>
-    <br>
-    Capacity: <label>
-        <input name="capacity" required type="number">
-    </label>
-    <br>
-    Email address: <label>
-        <input name="email" required type="email">
-    </label>
-    <br>
-    <input type="submit" value="Register">
 
-</form>
+    <head>
+        <meta charset="UTF-8">
+        <title>Register new venue</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-<?php
-include 'dataUpdater.php';
-$name = $email = $phone = "";
+    <body>
+        <div class="data-container">
+            <a href="index.php" class="button-link">Go back</a>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                Name: <label>
+                    <input name="name" required type="text">
+                </label>
+                <br>
+                Address: <label>
+                    <input name="address" required type="text">
+                </label>
+                <br>
+                Capacity: <label>
+                    <input name="capacity" required type="number">
+                </label>
+                <br>
+                Email address: <label>
+                    <input name="email" required type="email">
+                </label>
+                <br>
+                <input type="submit" value="Register">
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = test_input($_POST["name"]);
-    $address = test_input($_POST["address"]);
-    $phone = test_input($_POST["capacity"]);
-    $email = test_input($_POST["email"]);
-    createNewVenue($name, $address, $phone, $email);
-}
+            </form>
+        </div>
+        <?php
+        include 'dataUpdater.php';
+        include_once 'dbConnection.php';
+        $name = $email = $phone = "";
 
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = testInput($_POST["name"]);
+            $address = testInput($_POST["address"]);
+            $phone = testInput($_POST["capacity"]);
+            $email = testInput($_POST["email"]);
+            createNewVenue($name, $address, $phone, $email);
 
-?>
-</body>
+            header("Location: index.php");
+        }
+
+
+        ?>
+    </body>
+
 </html>
