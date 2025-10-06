@@ -30,7 +30,7 @@ class dataFetcher
         on t.event_id = e.event_id
         JOIN users u
         on o.user_id = u.user_id
-        ");
+        ORDER BY e.start_time");
         if (!$ordersResult) {
             echo "Orders query failed";
             exit;
@@ -60,9 +60,10 @@ class dataFetcher
             public.venues.name,
             public.users.name as organizer
         FROM events
-    JOIN venues
+        JOIN venues
         ON events.venue_id = venues.venue_id
-        JOIN users ON events.organizer_id = users.user_id");
+        JOIN users ON events.organizer_id = users.user_id
+        ORDER BY start_time");
         if (!$eventsResult) {
             echo "Events query failed";
             exit;
@@ -82,12 +83,46 @@ class dataFetcher
         JOIN events e
          ON t.event_id = e.event_id
         JOIN ticket_types tt
-        on t.ticket_type_id = tt.ticket_type_id;");
+        on t.ticket_type_id = tt.ticket_type_id
+        ORDER BY e.start_time");
         if (!$ticketsResult) {
             echo "Tickets query failed";
             exit;
         }
         return $ticketsResult;
+    }
+
+    function fetchTicketsByEventId($event_id)
+    {
+        $ticketsResult = pg_query_params($this->connection, "SELECT ticket_id,title,
+           to_char(start_time, 'YYYY-MM-DD HH24:MI') as start_time,
+           to_char(end_time, 'YYYY-MM-DD HH24:MI') as end_time,
+           price,
+           available_quantity,
+           ticket_type,
+           t.ticket_type_id
+        FROM tickets t
+        JOIN events e
+         ON t.event_id = e.event_id
+        JOIN ticket_types tt
+        on t.ticket_type_id = tt.ticket_type_id
+        WHERE e.event_id = $1
+        ORDER BY e.start_time", array($event_id));
+        if (!$ticketsResult) {
+            echo "Tickets by event ID query failed";
+            exit;
+        }
+        return $ticketsResult;
+    }
+
+    function fetchTicketTypes()
+    {
+        $ticketTypesResult = pg_query($this->connection, "SELECT * FROM ticket_types");
+        if (!$ticketTypesResult) {
+            echo "Ticket types query failed";
+            exit;
+        }
+        return $ticketTypesResult;
     }
 
     function fetchVenues()
@@ -128,11 +163,22 @@ class dataFetcher
             JOIN users u
             ON event_participants.user_id = u.user_id
             JOIN roles r
-            ON event_participants.role_id = r.role_id");
+            ON event_participants.role_id = r.role_id
+            ORDER BY e.start_time");
         if (!$eventsParticipantsResult) {
             echo "Events participants query failed";
             exit;
         }
         return $eventsParticipantsResult;
+    }
+    function fetchEventRoles()
+    {
+        $eventsRolesResult = pg_query($this->connection, "
+            SELECT * FROM roles");
+        if (!$eventsRolesResult) {
+            echo "Event roles query failed";
+            exit;
+        }
+        return $eventsRolesResult;
     }
 }
