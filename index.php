@@ -20,9 +20,9 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
 ?>
 
 
-<div class='event-container'>
+<div class='data-container'>
     <h1>Users</h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>User name</th>
             <th>Email</th>
@@ -43,7 +43,7 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
     <a href="registerNewUserForm.php" class="button-link">Create a new user</a>
 
     <h1>Venus</h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>Venue name</th>
             <th>Address</th>
@@ -67,7 +67,7 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
 
 
     <h1>Events</h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>Event Name</th>
             <th>Event Description</th>
@@ -75,8 +75,11 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
             <th>Start time</th>
             <th>End time</th>
             <th>Venue</th>
+            <th>Tickets</th>
         </tr>
         <?php
+       
+
         while ($row = pg_fetch_assoc($eventsResult)) {
             echo "
                 <tr id='{$row['event_id']}' >
@@ -86,6 +89,7 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
                 <td>{$row['start_time']}</td>
                 <td>{$row['end_time']}</td>
                 <td>{$row['name']}</td>
+                <td><a class='button-link' href='registerTickets.php?event_id={$row['event_id']}'>Create/Update Tickets</a></td>
                 </tr>
                 ";
         }
@@ -94,7 +98,7 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
     <a href="registerNewEventForm.php" class="button-link">Create a new Event</a>
 
     <h1>Event Participants </h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>User Name</th>
             <th>Event</th>
@@ -119,7 +123,7 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
     </table>
 
     <h1>Tickets</h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>Event Name</th>
             <th>Start time</th>
@@ -144,10 +148,10 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
         }
         ?>
     </table>
-
+    <a href="registerNewOrder.php" class="button-link">Buy tickets</a>
 
     <h1>Orders</h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>Order number</th>
             <th>User Name</th>
@@ -174,7 +178,7 @@ $eventParticipantsResult = $dataFetcher->fetchEventParticipants();
         ?>
     </table>
     <h1>Payments</h1>
-    <table class="event-table">
+    <table class="data-table">
         <tr>
             <th>Payment Id</th>
             <th>Amount</th>
