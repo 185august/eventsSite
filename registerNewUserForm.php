@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register new user</title>
-</head>
-<body>
-<a href="index.php" class="button-link">Go back</a>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    Name: <label>
-        <input name="name" required type="text">
-    </label>
-    <br>
-    Email: <label>
-        <input name="email" required type="text">
-    </label>
-    <br>
-    Phone: <label>
-        <input name="phone" required type="tel">
-    </label>
-    <br>
-    <input type="submit" value="Register">
+    <head>
+        <meta charset="UTF-8">
+        <title>Register new user</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-</form>
+    <body>
+        <div class="data-container">
+            <a href="index.php" class="button-link">Go back</a>
 
-<?php
-include 'dataUpdater.php';
-$name = $email = $phone = "";
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                Name: <label>
+                    <input name="name" required type="text">
+                </label>
+                <br>
+                Email: <label>
+                    <input name="email" required type="text">
+                </label>
+                <br>
+                Phone: <label>
+                    <input name="phone" required type="tel">
+                </label>
+                <br>
+                <input type="submit" value="Register">
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = test_input($_POST["name"]);
-    $email = test_input($_POST["email"]);
-    $phone = test_input($_POST["phone"]);
+            </form>
+        </div>
+        <?php
+        include_once 'dataUpdater.php';
+        include_once 'dbConnection.php';
+        $name = $email = $phone = "";
 
-    createNewUser($name, $email, $phone);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = testInput($_POST["name"]);
+            $email = testInput($_POST["email"]);
+            $phone = testInput($_POST["phone"]);
 
-    header("Location: index.php");
-    exit();
-}
+            createNewUser($name, $email, $phone);
 
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+            header("Location: index.php");
+            exit();
+        }
 
-?>
-</body>
+
+
+        ?>
+    </body>
+
 </html>
